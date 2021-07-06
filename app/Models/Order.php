@@ -11,8 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
+    
+    public const STATUS_PENDING = 0;
+    public const STATUS_CLOSED = 1;
+    public const STATUS_ARCHIVED = 2;
 
     public function user(): BelongsTo
     {
