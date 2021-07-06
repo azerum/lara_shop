@@ -8,14 +8,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 
+/**
+ * Class Order
+ * @package App\Models
+ * @mixin Builder
+ */
 class Order extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     public const STATUS_PENDING = 0;
     public const STATUS_CLOSED = 1;
     public const STATUS_ARCHIVED = 2;
+
+    protected $hidden = [
+        'id',
+        'user_id',
+    ];
 
     public function user(): BelongsTo
     {
