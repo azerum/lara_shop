@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('email')->unique();
-            $table->string('phone_number', 16)->nullable();
+            $table->string('phone_number', 15)->nullable();
 
             $table->softDeletes();
         });
