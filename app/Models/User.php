@@ -9,10 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
-    use SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes;
+
+    public $timestamps = false;
 
     public function orders(): HasMany
     {

@@ -11,6 +11,8 @@ class Invoice extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
