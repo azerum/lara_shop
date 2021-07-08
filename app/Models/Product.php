@@ -8,9 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Product extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'quantity',
+        'subcategory_id'
+    ];
 
     public function subcategory(): BelongsTo
     {

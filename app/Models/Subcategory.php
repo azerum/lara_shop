@@ -7,11 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Subcategory extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'title',
+        'category_id'
+    ];
 
     public function category(): BelongsTo
     {

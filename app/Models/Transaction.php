@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Transaction extends Model
 {
     use HasFactory;
@@ -16,6 +19,17 @@ class Transaction extends Model
 
     public const PAYMENT_TYPE_CASH = 0;
     public const PAYMENT_TYPE_BANK_CARD = 1;
+
+    protected $fillable = [
+        'status',
+        'payment_type',
+        'executed_at',
+        'order_id'
+    ];
+
+    protected $casts = [
+        'executed_at' => 'datetime'
+    ];
 
     public function order(): BelongsTo
     {

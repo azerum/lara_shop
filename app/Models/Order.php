@@ -23,9 +23,11 @@ class Order extends Model
     public const STATUS_CLOSED = 1;
     public const STATUS_ARCHIVED = 2;
 
-    protected $hidden = [
-        'id',
-        'user_id',
+    protected $fillable = [
+        'status',
+        'total_price',
+        'delivery_price',
+        'user_id'
     ];
 
     public function user(): BelongsTo

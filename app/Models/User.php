@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,8 +17,14 @@ class User extends Authenticatable
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'full_name',
+        'email',
+        'phone_number'
+    ];
+
     public function orders(): HasMany
     {
-        $this->hasMany(Order::class);
+        return $this->hasMany(Order::class);
     }
 }
