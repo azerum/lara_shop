@@ -21,6 +21,10 @@ class Category extends Model
         'title'
     ];
 
+    public static array $rules = [
+        'title' => 'required|string|max:64'
+    ];
+
     public function subcategories(): HasMany
     {
         return $this->hasMany(Subcategory::class);

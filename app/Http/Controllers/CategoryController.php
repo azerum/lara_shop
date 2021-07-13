@@ -21,10 +21,7 @@ class CategoryController extends Controller
     public function create(Request $request, ValidationService $validationService)
     {
         $values = $request->all(['title']);
-
-        $rules = [
-            'title' => 'required|string|max:64'
-        ];
+        $rules = Category::$rules;
 
         $validated = $validationService->getValidatedOrThrow($values, $rules);
 
@@ -35,9 +32,8 @@ class CategoryController extends Controller
     {
         $values = $category->getAttributes();
 
-        $rules = [
-            'title' => 'sometimes|required|string|max:64'
-        ];
+        $rules = Category::$rules;
+        $rules['title'] = 'sometimes|' . $rules['title'];
 
         $validated = $validationService->getValidatedOrThrow($values, $rules);
         $category->update($validated);
