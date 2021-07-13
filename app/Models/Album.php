@@ -20,12 +20,18 @@ class Album extends Model
     protected $fillable = [
         'title',
         'description',
-        'user_id'
+        'product_id'
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at'
+    ];
+
+    public static array $rules = [
+        'title' => 'required|string|max:256',
+        'description' => 'sometimes|required|string',
+        'product_id' => 'required|numeric|exists:App\Models\Product, id'
     ];
 
     public function product(): BelongsTo
