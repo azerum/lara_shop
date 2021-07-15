@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends BaseController
 {
-    private static array $validationRules = [
+    private static array $categoryValidationRules = [
         'title' => 'required|string|max:64'
     ];
 
@@ -28,7 +28,7 @@ class CategoryController extends BaseController
 
         $validated = ValidationService::getValidatedOrThrow(
             $values,
-            self::$validationRules
+            self::$categoryValidationRules
         );
 
         return Category::create($validated);
@@ -40,7 +40,7 @@ class CategoryController extends BaseController
     public function patch(Category $category, Request $request)
     {
         $values = $request->only('title');
-        $rules = self::addSometimesToRules(self::$validationRules);
+        $rules = self::addSometimesToRules(self::$categoryValidationRules);
 
         $validated = ValidationService::getValidatedOrThrow(
             $values,
