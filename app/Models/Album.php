@@ -30,8 +30,8 @@ class Album extends Model
 
     public static array $rules = [
         'title' => 'required|string|max:256',
-        'description' => 'sometimes|required|string',
-        'product_id' => 'required|numeric|exists:App\Models\Product, id'
+        'description' => 'sometimes|string',
+        'product_id' => 'required|numeric|exists:products,id'
     ];
 
     public function product(): BelongsTo
