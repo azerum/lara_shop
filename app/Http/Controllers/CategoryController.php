@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ValidationFailedException;
+use App\Exceptions\InvalidModelAttributesException;
 use App\Services\ValidationService;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -16,27 +16,21 @@ class CategoryController extends Controller
     }
 
     /**
-     * @throws ValidationFailedException
+     * @throws InvalidModelAttributesException
      */
-    public function create(Request $request, ValidationService $validationService)
+    public function create(Request $request)
     {
-        $values = $request->all(['title']);
-        $rules = Category::$rules;
-
-        $validated = $validationService->getValidatedOrThrow($values, $rules);
-
-        return Category::create($validated);
+        $attributes = $request->all(['title']);
+        return Category::create($attributes);
     }
 
-    public function patch(Category $category, ValidationService $validationService)
+    /**
+     * @throws InvalidModelAttributesException
+     */
+    public function patch(Category $category, Request $request)
     {
-        $values = $category->getAttributes();
-
-        $rules = Category::$rules;
-        $rules['title'] = 'sometimes|' . $rules['title'];
-
-        $validated = $validationService->getValidatedOrThrow($values, $rules);
-        $category->update($validated);
+        $attributes = $request->only('title');
+        $category->update($attributes);
 
         return response()->noContent();
     }
