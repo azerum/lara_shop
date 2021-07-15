@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\FilesPaths;
+use App\Constants\FilesDirectories;
 use App\Exceptions\ValidationFailedException;
 use App\FileSavers\ProductImageSaver;
 use App\Models\Album;
@@ -52,7 +52,7 @@ class AlbumController extends BaseController
         $uploadedFiles = $validated['images_files'];
 
         foreach ($uploadedFiles as $file) {
-            $path = $file->store(FilesPaths::PRODUCT_IMAGES_DIR);
+            $path = $file->store(FilesDirectories::PRODUCTS_IMAGES);
             //...
         }
     }
