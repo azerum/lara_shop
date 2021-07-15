@@ -3,16 +3,13 @@
 
 namespace App\Services;
 
-
 use App\Models\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class FileService
 {
-    public static function save(
-        UploadedFile $uploadedFile,
-        string $directoryPath
-    ): File
+    public static function save(UploadedFile $uploadedFile, string $directoryPath): File
     {
         $filePath = $uploadedFile->store($directoryPath);
 
@@ -22,5 +19,11 @@ class FileService
 
         $file->save();
         return $file;
+    }
+
+    public static function delete(File $file)
+    {
+        Storage::delete($file->path);
+        $file->delete();
     }
 }
