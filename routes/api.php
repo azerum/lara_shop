@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,9 @@ Route::group(['prefix' => 'categories'], function() {
     Route::post('/', [CategoryController::class, 'create']);
     Route::patch('/{category}', [CategoryController::class, 'patch']);
     Route::delete('/{category}', [CategoryController::class, 'delete']);
+});
+
+Route::group(['prefix' => 'albums'], function() {
+    Route::post('/', [AlbumController::class, 'create']);
+    Route::post('/{album}', [AlbumController::class, 'uploadImages']);
 });
