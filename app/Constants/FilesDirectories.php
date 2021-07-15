@@ -4,6 +4,6 @@ namespace App\Constants;
 
 class FilesDirectories
 {
-    public const PRODUCTS_IMAGES = 'product_images';
-    public const PRODUCTS_PDFS = 'product_pdfs';
+    public const PRODUCTS_IMAGES = 'products_images';
+    public const PRODUCTS_PDFS = 'products_pdfs';
 }
