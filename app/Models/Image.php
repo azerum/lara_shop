@@ -29,6 +29,6 @@ class Image extends Model
 
     public function file(): HasOne
     {
-        return $this->hasOne(File::class);
+        return $this->hasOne(File::class, 'id', 'file_id');
     }
 }
