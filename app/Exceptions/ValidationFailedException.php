@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class InvalidModelAttributesException extends Exception
+class ValidationFailedException extends Exception
 {
     private array $errors;
 

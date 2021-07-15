@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Exceptions\ValidationFailedException;
+use App\Services\ValidationService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,12 +28,6 @@ class Album extends Model
     protected $hidden = [
         'created_at',
         'updated_at'
-    ];
-
-    public static array $rules = [
-        'title' => 'required|string|max:256',
-        'description' => 'sometimes|string',
-        'product_id' => 'required|numeric|exists:products,id'
     ];
 
     public function product(): BelongsTo

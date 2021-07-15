@@ -2,42 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\FilesPaths;
+use App\Exceptions\ValidationFailedException;
+use App\FileSavers\ProductImageSaver;
 use App\Models\Album;
 use App\Services\ValidationService;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
 
-class AlbumController extends Controller
+class AlbumController extends BaseController
 {
+    private static array $albumValidationRules = [
+        'title' => 'required|string|max:256',
+        'description' => 'sometimes|string',
+        'product_id' => 'required|numeric|exists:products,id'
+    ];
+
+    private static array $uploadValidationRules = [
+        'images_files' => 'required',
+        'images_files.*' => 'image|mimes:png,jpg,gif'
+    ];
+
     /**
-     * @throws \App\Exceptions\ValidationFailedException
+     * @throws ValidationFailedException
      */
-    public function create(Request $request, ValidationService $validationService)
+    public function create(Request $request)
     {
         $values = $request->only(['title', 'description', 'product_id']);
-        $rules = Album::$rules;
 
-        $validated = $validationService->getValidatedOrThrow($values, $rules);
+        $validated = ValidationService::getValidatedOrThrow(
+            $values,
+            self::$albumValidationRules
+        );
+
         return Album::create($validated);
     }
 
     /**
-     * @throws \App\Exceptions\ValidationFailedException
+     * @throws ValidationFailedException
      */
-    public function uploadImages(
-        Album $album,
-        Request $request,
-        ValidationService $validationService
-    )
+    public function uploadImages(Album $album, Request $request)
     {
-        $values = $request->only('images');
+        $values = $request->only('images_files');
 
-        $rules = [
-            'images' => 'required',
-            'images.*' => 'image|mimes:jpg,png,gif'
-        ];
+        $validated = ValidationService::getValidatedOrThrow(
+            $values,
+            self::$uploadValidationRules
+        );
 
-        $validated = $validationService->getValidatedOrThrow($values, $rules);
-        $uploadedFiles = $validated['images'];
+        $uploadedFiles = $validated['images_files'];
+
+        foreach ($uploadedFiles as $file) {
+            $path = $file->store(FilesPaths::PRODUCT_IMAGES_DIR);
+            //...
+        }
     }
 }

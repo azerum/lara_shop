@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Exceptions\InvalidModelAttributesException;
+use App\Exceptions\ValidationFailedException;
 use App\Services\ValidationService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,36 +22,6 @@ class Category extends Model
     protected $fillable = [
         'title'
     ];
-
-    /**
-     * @throws InvalidModelAttributesException
-     */
-    public function save(array $options = []): bool
-    {
-        $values = $this->getAttributes();
-
-        $rules = [
-            'title' => 'required|string|max:64'
-        ];
-
-        ValidationService::throwIfInvalid($values, $rules);
-
-        return parent::save($options);
-    }
-
-    /**
-     * @throws InvalidModelAttributesException
-     */
-    public function update(array $attributes = [], array $options = []): bool
-    {
-        $rules = [
-            'title' => 'sometimes|required|string|max:64'
-        ];
-
-        ValidationService::throwIfInvalid($attributes, $rules);
-
-        return parent::update($attributes, $options);
-    }
 
     public function subcategories(): HasMany
     {

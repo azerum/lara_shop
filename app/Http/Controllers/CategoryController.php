@@ -2,35 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\InvalidModelAttributesException;
+use App\Exceptions\ValidationFailedException;
 use App\Services\ValidationService;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends Controller
+class CategoryController extends BaseController
 {
+    private static array $validationRules = [
+        'title' => 'required|string|max:64'
+    ];
+
     public function getAll()
     {
         return Category::all()->toArray();
     }
 
     /**
-     * @throws InvalidModelAttributesException
+     * @throws ValidationFailedException
      */
     public function create(Request $request)
     {
-        $attributes = $request->all(['title']);
-        return Category::create($attributes);
+        $values = $request->all(['title']);
+
+        $validated = ValidationService::getValidatedOrThrow(
+            $values,
+            self::$validationRules
+        );
+
+        return Category::create($validated);
     }
 
     /**
-     * @throws InvalidModelAttributesException
+     * @throws ValidationFailedException
      */
     public function patch(Category $category, Request $request)
     {
-        $attributes = $request->only('title');
-        $category->update($attributes);
+        $values = $request->only('title');
+        $rules = self::addSometimesToRules(self::$validationRules);
+
+        $validated = ValidationService::getValidatedOrThrow(
+            $values,
+            $rules
+        );
+
+        $category->update($validated);
 
         return response()->noContent();
     }

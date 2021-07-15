@@ -15,7 +15,7 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->renderable(function (InvalidModelAttributesException $e) {
+        $this->renderable(function (ValidationFailedException $e) {
             $errors = [
                 'errors' => $e->getErrors()
             ];
