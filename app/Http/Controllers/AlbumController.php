@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Constants\FilesDirectories;
 use App\Exceptions\ValidationFailedException;
+use App\FileSavers\FileSaver;
 use App\FileSavers\ProductImageSaver;
 use App\Models\Album;
+use App\Models\File;
+use App\Models\Image;
+use App\Services\FileService;
 use App\Services\ValidationService;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 
 class AlbumController extends BaseController
 {
@@ -18,8 +24,8 @@ class AlbumController extends BaseController
     ];
 
     private static array $uploadValidationRules = [
-        'images_files' => 'required',
-        'images_files.*' => 'image|mimes:png,jpg,gif'
+        'images' => 'required',
+        'images.*' => 'image|mimes:png,jpg,gif'
     ];
 
     /**
@@ -42,18 +48,29 @@ class AlbumController extends BaseController
      */
     public function uploadImages(Album $album, Request $request)
     {
-        $values = $request->only('images_files');
+        $values = $request->only('images');
 
         $validated = ValidationService::getValidatedOrThrow(
             $values,
             self::$uploadValidationRules
         );
 
-        $uploadedFiles = $validated['images_files'];
+        /**
+         * @var UploadedFile[] $uploadedFiles
+         */
+        $uploadedFiles = $validated['images'];
 
         foreach ($uploadedFiles as $file) {
-            $path = $file->store(FilesDirectories::PRODUCTS_IMAGES);
-            //...
+            $fileModel = FileService::save($file, FilesDirectories::PRODUCTS_IMAGES);
+
+            $image = new Image();
+            $image->file_id = $fileModel->id;
+            $image->album()->associate($album);
+
+            $image->save();
         }
+
+        $album->load('images');
+        return $album;
     }
 }
