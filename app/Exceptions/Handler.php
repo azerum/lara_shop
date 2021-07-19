@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -19,7 +20,7 @@ class Handler extends ExceptionHandler
                 'errors' => $e->getErrors()
             ];
 
-            return response()->json($errors, 422);
+            return response()->json($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         });
     }
 }
