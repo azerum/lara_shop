@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Constants\SeedersConstants;
 use App\Models\User;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder

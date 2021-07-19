@@ -4,16 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Constants\FilesDirectories;
 use App\Exceptions\ValidationFailedException;
-use App\FileSavers\FileSaver;
-use App\FileSavers\ProductImageSaver;
 use App\Models\Album;
-use App\Models\File;
 use App\Models\Image;
 use App\Services\FileService;
 use App\Services\ValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Collection;
 
 class AlbumController extends BaseController
 {
