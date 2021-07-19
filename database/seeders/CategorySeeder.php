@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\SeedersConstants;
+use App\Constants\SeedersConstants;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
