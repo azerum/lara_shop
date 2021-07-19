@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\FilesDirectories;
+use App\Constants\StorageDirectories;
 use App\Exceptions\ValidationFailedException;
 use App\Models\Album;
 use App\Models\Image;
@@ -57,7 +57,7 @@ class AlbumController extends BaseController
         $uploadedFiles = $validated['images'];
 
         foreach ($uploadedFiles as $file) {
-            $fileModel = FileService::save($file, FilesDirectories::PRODUCTS_IMAGES);
+            $fileModel = FileService::save($file, StorageDirectories::PRODUCTS_IMAGES);
 
             $image = new Image();
             $image->file_id = $fileModel->id;
