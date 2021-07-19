@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property-read int $id
+ * @property string $title
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Subcategory extends Model

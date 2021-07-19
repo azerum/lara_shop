@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
 
 /**
- * Class Order
- * @package App\Models
- * @mixin Builder
+ * @property-read int $id
+ * @property $status One of the Order::STATUS_* values
+ * @property int $total_price
+ * @property int $delivery_price
+ * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Order extends Model
 {

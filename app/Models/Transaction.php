@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property-read int $id
+ * @property $status One of the Transaction::STATUS_* values
+ * @property $payment_type One of the Transaction::PAYMENT_TYPE_* values
+ * @property Carbon $executed_at
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Transaction extends Model

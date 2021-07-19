@@ -9,6 +9,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
+ * @property-read int $id
+ * @property string $full_name
+ * @property string $email
+ * @property string $phone_number
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class User extends Authenticatable
