@@ -11,14 +11,15 @@ class BaseController extends Controller
      * @return array<string, string>
      */
     protected function addSometimesToRules(array $rules): array {
-        $rulesWithoutSometimes = array_filter(
-            $rules,
-            fn($rule) => !str_starts_with($rule, 'sometimes|')
-        );
-
         return array_map(
-            fn($rule) => 'sometimes|' . $rule,
-            $rulesWithoutSometimes
+            function(string $rule) {
+                if (!str_starts_with($rule, 'sometimes|')) {
+                    $rule = 'sometimes|' . $rule;
+                }
+
+                return $rule;
+            },
+            $rules
         );
     }
 }
