@@ -24,6 +24,11 @@ class AlbumController extends BaseController
         'images.*' => 'image|mimes:png,jpg,gif'
     ];
 
+    public function getAll()
+    {
+        return Album::all()->load('images')->toArray();
+    }
+
     /**
      * @throws ValidationFailedException
      */
