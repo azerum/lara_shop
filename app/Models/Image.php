@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * @property-read int $id
  * @property string $title
+ * @property int $file_id
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Image extends Model
