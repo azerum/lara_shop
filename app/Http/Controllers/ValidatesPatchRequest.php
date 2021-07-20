@@ -3,8 +3,7 @@
 
 namespace App\Http\Controllers;
 
-
-class BaseController extends Controller
+trait ValidatesPatchRequest
 {
     /**
      * @param array<string, string> $rules
