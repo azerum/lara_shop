@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
+
             CategorySeeder::class,
             SubcategorySeeder::class,
             ProductSeeder::class,
@@ -22,6 +23,10 @@ class DatabaseSeeder extends Seeder
             OrderProductPivotTableSeeder::class,
             InvoiceSeeder::class,
             TransactionSeeder::class,
+
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            AuthTablesRelationSeeder::class,
         ]);
     }
 }

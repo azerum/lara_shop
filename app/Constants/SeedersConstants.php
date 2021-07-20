@@ -14,4 +14,6 @@ class SeedersConstants
     public const MAX_PRODUCTS_PER_ORDER = 5;
 
     public const TRANSACTIONS_COUNT = self::ORDERS_COUNT;
+
+    public const PERMISSIONS_COUNT = 20;
 }

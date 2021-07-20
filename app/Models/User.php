@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,6 +15,7 @@ use Laravel\Passport\HasApiTokens;
  * @property string $full_name
  * @property string $email
  * @property string $phone_number
+ * @property string $password_hash
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class User extends Authenticatable
@@ -26,11 +28,22 @@ class User extends Authenticatable
     protected $fillable = [
         'full_name',
         'email',
-        'phone_number'
+        'phone_number',
+        'password_hash',
     ];
 
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
     }
 }
