@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property-read int $id
- * @property $status One of the Transaction::STATUS_* values
- * @property $payment_type One of the Transaction::PAYMENT_TYPE_* values
+ * @property $status Одно из значений Transaction::STATUS_*
+ * @property $payment_type Одно из значений Transaction::PAYMENT_TYPE_*
  * @property Carbon $executed_at
  * @mixin \Illuminate\Database\Eloquent\Builder
  */

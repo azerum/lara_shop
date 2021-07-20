@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ValidationFailedException;
-use App\Services\ValidationService;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends BaseController
+class CategoryController extends Controller
 {
-    private static array $categoryValidationRules = [
+    use ValidatesPatchRequest;
+
+    private static array $categoryRules = [
         'title' => 'required|string|max:64'
     ];
 
@@ -20,33 +21,24 @@ class CategoryController extends BaseController
     }
 
     /**
-     * @throws ValidationFailedException
+     * @throws ValidationException
      */
     public function create(Request $request)
     {
-        $values = $request->all(['title']);
-
-        $validated = ValidationService::getValidatedOrThrow(
-            $values,
-            self::$categoryValidationRules
-        );
-
+        $validated = $this->validate($request, self::$categoryRules);
         return Category::create($validated);
     }
 
     /**
-     * @throws ValidationFailedException
+     * @throws ValidationException
      */
     public function patch(Category $category, Request $request)
     {
-        $values = $request->only('title');
-        $rules = self::addSometimesToRules(self::$categoryValidationRules);
+        //При редактировании модели нет обязательных полей,
+        //так что добавляем ко всем правилам валидации 'sometimes'
+        $rules = $this->addSometimesToRules(self::$categoryRules);
 
-        $validated = ValidationService::getValidatedOrThrow(
-            $values,
-            $rules
-        );
-
+        $validated = $this->validate($request, $rules);
         $category->update($validated);
 
         return response()->noContent();

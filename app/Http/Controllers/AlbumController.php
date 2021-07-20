@@ -3,58 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Constants\StorageDirectories;
-use App\Exceptions\ValidationFailedException;
 use App\Models\Album;
 use App\Models\Image;
 use App\Services\FileService;
-use App\Services\ValidationService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\ValidationException;
 
-class AlbumController extends BaseController
+class AlbumController extends Controller
 {
-    private static array $albumValidationRules = [
-        'title' => 'required|string|max:256',
-        'description' => 'sometimes|string',
-        'product_id' => 'required|numeric|exists:products,id'
-    ];
-
-    private static array $uploadValidationRules = [
-        'images' => 'required',
-        'images.*' => 'image|mimes:png,jpg,gif'
-    ];
-
     public function getAll()
     {
         return Album::all()->load('images')->toArray();
     }
 
     /**
-     * @throws ValidationFailedException
+     * @throws ValidationException
      */
     public function create(Request $request)
     {
-        $values = $request->only(['title', 'description', 'product_id']);
+        $rules = [
+            'title' => 'required|string|max:256',
+            'description' => 'nullable|string',
+            'product_id' => 'required|numeric|exists:products,id'
+        ];
 
-        $validated = ValidationService::getValidatedOrThrow(
-            $values,
-            self::$albumValidationRules
-        );
+        /**
+         * Метод validate() определен во встроенном в Laravel trait'е
+         * ValidatesRequest.
+         * Этот trait используется в классе @see \App\Http\Controllers\Controller,
+         * от которого по умолчанию наследуют все контроллеры.
+         * validate() возвращает отвалидированные данные или выбрасывает
+         * ValidationException, если данные не прошли проверку.
+         * Мы обрабатываем ValidationException в @see \App\Exceptions\Handler
+         */
 
+        $validated = $this->validate($request, $rules);
         return Album::create($validated);
     }
 
     /**
-     * @throws ValidationFailedException
+     * @throws ValidationException
      */
     public function uploadImages(Album $album, Request $request)
     {
-        $values = $request->only('images');
+        $rules = [
+            'images' => 'required',
+            'images.*' => 'image|mimes:png,jpg,gif'
+        ];
 
-        $validated = ValidationService::getValidatedOrThrow(
-            $values,
-            self::$uploadValidationRules
-        );
+        $validated = $this->validate($request, $rules);
 
         /**
          * @var UploadedFile[] $uploadedFiles
@@ -62,7 +60,8 @@ class AlbumController extends BaseController
         $uploadedFiles = $validated['images'];
 
         foreach ($uploadedFiles as $file) {
-            $fileModel = FileService::save($file, StorageDirectories::PRODUCTS_IMAGES);
+            $fileModel =
+                FileService::save($file, StorageDirectories::PRODUCTS_IMAGES);
 
             $image = new Image();
             $image->file_id = $fileModel->id;

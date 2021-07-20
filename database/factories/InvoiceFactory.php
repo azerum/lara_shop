@@ -20,7 +20,7 @@ class InvoiceFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'id' => $this->faker->unique()->numberBetween(1, Order::count()),

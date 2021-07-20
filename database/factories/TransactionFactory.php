@@ -2,12 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Helpers\FactoriesHelpers;
 use App\Models\Order;
 use App\Models\Transaction;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TransactionFactory extends Factory
+class TransactionFactory extends FactoryWithRandomConstantGeneration
 {
     /**
      * The name of the factory's corresponding model.
@@ -21,14 +19,11 @@ class TransactionFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
-        $statuses = FactoriesHelpers::getClassConstantsByPrefix(Transaction::class, 'STATUS_');
-        $paymentTypes = FactoriesHelpers::getClassConstantsByPrefix(Transaction::class, 'PAYMENT_TYPE_');
-
         return [
-            'status' => $this->faker->numberBetween(min($statuses), max($statuses)),
-            'payment_type' => $this->faker->numberBetween(min($paymentTypes), max($paymentTypes)),
+            'status' => $this->randomModelConstantWithPrefix('STATUS_'),
+            'payment_type' => $this->randomModelConstantWithPrefix('PAYMENT_TYPE_'),
             'executed_at' => $this->faker->dateTime(),
             'order_id' => $this->faker->numberBetween(1, Order::count())
         ];
