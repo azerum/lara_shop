@@ -24,7 +24,7 @@ class AlbumController extends Controller
     {
         $rules = [
             'title' => 'required|string|max:256',
-            'description' => 'sometimes|string',
+            'description' => 'nullable|string',
             'product_id' => 'required|numeric|exists:products,id'
         ];
 
