@@ -12,7 +12,7 @@ use Illuminate\Database\Query\Builder;
 
 /**
  * @property-read int $id
- * @property $status One of the Order::STATUS_* values
+ * @property $status Одно из значений Order::STATUS_*
  * @property int $total_price
  * @property int $delivery_price
  * @mixin \Illuminate\Database\Eloquent\Builder

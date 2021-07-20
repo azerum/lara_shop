@@ -8,6 +8,10 @@ use ReflectionClass;
 
 abstract class FactoryWithRandomConstantGeneration extends Factory
 {
+    /**
+     * Выбирает из модели случайную константу, название которой
+     * начинается с $prefix
+     */
     protected function randomModelConstantWithPrefix(string $prefix)
     {
         $constants = $this->getModelConstantsWithPrefix($prefix);
@@ -17,10 +21,11 @@ abstract class FactoryWithRandomConstantGeneration extends Factory
     private function getModelConstantsWithPrefix(string $prefix): array
     {
         /** @noinspection PhpUnhandledExceptionInspection*/
-        //ReflectionException can be thrown here only if class with
-        //name $this->model doesn't exist. This should never happen,
-        //as factory won't work at all if model is invalid
-
+        //В этой строке может возникнуть ReflectionException, если
+        //класс с названием, указанным в $this->model не существует.
+        //Но если модель фабрики не существует, то ошибка возникнет раньше,
+        //чем код дойтет до этого метода. Так что ReflectionException
+        //не должно возникать здесь никогда
         $reflection = new ReflectionClass($this->model);
 
         $constants = $reflection->getConstants();

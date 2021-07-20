@@ -28,6 +28,16 @@ class AlbumController extends Controller
             'product_id' => 'required|numeric|exists:products,id'
         ];
 
+        /**
+         * Метод validate() определен во встроенном в Laravel trait'е
+         * ValidatesRequest.
+         * Этот trait используется в классе @see \App\Http\Controllers\Controller,
+         * от которого по умолчанию наследуют все контроллеры.
+         * validate() возвращает отвалидированные данные или выбрасывает
+         * ValidationException, если данные не прошли проверку.
+         * Мы обрабатываем ValidationException в @see \App\Exceptions\Handler
+         */
+
         $validated = $this->validate($request, $rules);
         return Album::create($validated);
     }

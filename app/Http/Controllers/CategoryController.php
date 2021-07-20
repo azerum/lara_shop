@@ -34,9 +34,11 @@ class CategoryController extends Controller
      */
     public function patch(Category $category, Request $request)
     {
+        //При редактировании модели нет обязательных полей,
+        //так что добавляем ко всем правилам валидации 'sometimes'
         $rules = $this->addSometimesToRules(self::$categoryRules);
-        $validated = $this->validate($request, $rules);
 
+        $validated = $this->validate($request, $rules);
         $category->update($validated);
 
         return response()->noContent();
