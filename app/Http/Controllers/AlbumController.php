@@ -59,12 +59,14 @@ class AlbumController extends Controller
          */
         $uploadedFiles = $validated['images'];
 
-        foreach ($uploadedFiles as $file) {
-            $fileModel =
-                FileService::save($file, StorageDirectories::PRODUCTS_IMAGES);
+        foreach ($uploadedFiles as $uploadedFile) {
+            $file = FileService::save(
+                $uploadedFile,
+                StorageDirectories::PRODUCTS_IMAGES
+            );
 
             $image = new Image();
-            $image->file_id = $fileModel->id;
+            $image->file()->associate($file);
             $image->album()->associate($album);
 
             $image->save();

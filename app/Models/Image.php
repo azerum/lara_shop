@@ -47,8 +47,8 @@ class Image extends Model
         return $this->belongsTo(Album::class);
     }
 
-    public function file(): HasOne
+    public function file(): BelongsTo
     {
-        return $this->hasOne(File::class, 'id', 'file_id');
+        return $this->belongsTo(File::class);
     }
 }
