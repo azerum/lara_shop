@@ -11,7 +11,7 @@ trait ValidatesPatchRequest
      */
     protected function prependSometimesToRules(array $rules): array {
         return array_map(
-            function(string $rule) {
+            function (string $rule) {
                 if (!str_starts_with($rule, 'sometimes|')) {
                     $rule = 'sometimes|' . $rule;
                 }
