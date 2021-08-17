@@ -25,6 +25,9 @@ Route::group(['prefix' => 'categories'], function() {
 
 Route::group(['prefix' => 'albums'], function() {
     Route::get('/', [AlbumController::class, 'getAll']);
-    Route::post('/', [AlbumController::class, 'create']);
+
+    Route::post('/', [AlbumController::class, 'create'])
+        ->middleware(['auth', 'role:user']);
+
     Route::post('/{album}', [AlbumController::class, 'uploadImages']);
 });
