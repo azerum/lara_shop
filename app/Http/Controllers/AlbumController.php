@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AlbumController extends Controller
