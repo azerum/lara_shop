@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int $id
  * @property string $title
  * @property string $description
+ * @property \Carbon\Carbon $created_at
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
 class Album extends Model

@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Constants\StorageDirectories;
+use App\Jobs\SendAlbumCreatedNotification;
+use App\Mail\AlbumCreatedNotification;
 use App\Models\Album;
 use App\Models\Image;
 use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Queue\Jobs\Job;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 
 class AlbumController extends Controller
@@ -40,7 +44,14 @@ class AlbumController extends Controller
          */
 
         $validated = $this->validate($request, $rules);
-        return Album::create($validated);
+        $album = Album::create($validated);
+
+        //SendAlbumCreatedNotification::dispatch($album);
+
+        Mail::to(config('mail.notifications_reciever'))
+            ->send(new AlbumCreatedNotification($album));
+
+        return $album;
     }
 
     /**
