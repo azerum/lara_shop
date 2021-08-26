@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +29,8 @@ Route::group(['prefix' => 'albums'], function() {
     Route::get('/', [AlbumController::class, 'getAll']);
     Route::post('/', [AlbumController::class, 'create']);
     Route::post('/{album}', [AlbumController::class, 'uploadImages']);
+});
+
+Route::group(['prefix' => 'orders'], function() {
+    Route::get('/', [OrderController::class, 'getAll']);
 });
